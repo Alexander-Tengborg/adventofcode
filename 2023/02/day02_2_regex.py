@@ -1,3 +1,5 @@
+import re
+
 file = open("day02_data.txt", "r")
 
 game_sum = 0
@@ -16,17 +18,14 @@ for line in file.readlines():
         'blue': 0
     }
 
-    # Loops through each set of cubes
-    for set in game_data.split(';'):
-        set = set.strip()
+    matches = re.findall(r"([0-9]{1,2}) (red|green|blue)", line)
 
-        # Loops through each cube color for the current set and game
-        for cubes in set.split(','):
-            cube = cubes.strip().split(' ')
+    # Loops through all cubes, and checks what the minimum amount of cubes for each color are for the game to be possible
+    for amount, color in matches:
+        amount = int(amount)
 
-            # Checks if the current cube and color is greater than the currently minimum number of the same cube and color
-            if(int(cube[0]) > int(min_cubes[cube[1]])):
-                min_cubes[cube[1]] = int(cube[0])
+        if(amount > min_cubes[color]):
+            min_cubes[color] = amount
 
     game_product = min_cubes['red'] * min_cubes['green'] * min_cubes['blue']
 
