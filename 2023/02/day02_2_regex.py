@@ -9,7 +9,8 @@ for line in file.readlines():
     
     # Gets the game id and the game data
     game_id = int(line.split(':')[0][5:])
-    game_data = line.split(':')[1].strip()
+
+    #game_id = int(re.search(r"Game ([0-9]{1,3}):", line)[1])
 
     # Minimum possible number of each cube, assume 0 works
     min_cubes = {
