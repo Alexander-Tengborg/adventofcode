@@ -1,6 +1,3 @@
-import re
-import time
-start_time = time.time()
 file = open("day04_data.txt", "r")
 
 # cards will be used to keep track of all the cards, including the new ones we get from winning
@@ -36,5 +33,3 @@ for i, card in enumerate(cards):
 print(sum(amount_of_cards))
 
 file.close()
-
-print("--- %s seconds ---" % (time.time() - start_time))

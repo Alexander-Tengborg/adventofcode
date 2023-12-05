@@ -1,5 +1,3 @@
-import re
-
 file = open("day04_data.txt", "r")
 
 # original_cards will only be used to keep track of the original cards
@@ -30,7 +28,7 @@ for i, card in enumerate(cards):
             wins += 1
 
     # Adds new cards to our "card deck" according to how many wins the current card got
-    # This is very inefficient and makes the program slow
+    # This is very inefficient and makes the program slow, since the entire for loop will run ~7 million times
     for j in range(wins):
         new_card = original_cards[card_number+j]
         cards.append(new_card)

@@ -39,7 +39,7 @@ for symbol in all_symbols:
 
         symbol_col = symbol[1]
 
-        # If the number and symbol are not on the same or adjacent columns, continue
+        # If the number and the symbol are not on the same or adjacent columns, continue
         if not symbol_col >= (min_col - 1) or not symbol_col <= (max_col + 1): continue
 
         sum += number[0]

@@ -1,5 +1,3 @@
-import re
-
 file = open("day04_data.txt", "r")
 
 game_sum = 0
