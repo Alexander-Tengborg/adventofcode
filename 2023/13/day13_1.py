@@ -1,6 +1,4 @@
 #file = open("day13_data.txt", "r")
-import math
-
 file = open("W:\\adventofcode\\2023\\13\\day13_data.txt", "r")
 
 def getRowReflection(pattern):

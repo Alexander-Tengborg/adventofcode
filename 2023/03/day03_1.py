@@ -41,7 +41,7 @@ for symbol in all_symbols:
 
         # If the number and the symbol are not on the same or adjacent columns, continue
         if not symbol_col >= (min_col - 1) or not symbol_col <= (max_col + 1): continue
-
+        print(number[0])
         sum += number[0]
 
 print(sum)

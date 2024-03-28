@@ -1,9 +1,9 @@
 #file = open("day13_data.txt", "r")
-import math
-
 file = open("W:\\adventofcode\\2023\\13\\day13_data.txt", "r")
 
-def getCharDifference(pattern1, pattern2):
+# Returns the index of each character that differs
+# between pattern1 and pattern2
+def get_char_difference(pattern1, pattern2):
     diff = []
 
     if len(pattern1) != len(pattern2): return diff
@@ -14,13 +14,13 @@ def getCharDifference(pattern1, pattern2):
 
     return diff
 
-def getRowReflection(pattern):
+def get_reflection(pattern):
     last_row = ""
 
     # Loops through each row in the pattern
     for i, row in enumerate(pattern):
         total_diff = 0
-        diff = getCharDifference(last_row, row)
+        diff = get_char_difference(last_row, row)
         # If the last row is the same as the current one, it is a possible reflect index
         if last_row == row or len(diff) == 1:
             reflect_index = i - 1
@@ -35,7 +35,7 @@ def getRowReflection(pattern):
                 if high_index >= len(pattern):
                     break
 
-                diff = getCharDifference(pattern[low_index], pattern[high_index])
+                diff = get_char_difference(pattern[low_index], pattern[high_index])
                 if len(diff) == 1:
                     total_diff += 1
                     continue
@@ -46,76 +46,32 @@ def getRowReflection(pattern):
                     break
                 
             # If the reflect index is valid, return it + 1
-            print(reflect_index)
             if reflect_index != -1 and total_diff == 1:
-                print("VALID", last_row, row)
                 return reflect_index + 1    
 
         last_row = row
 
-    return -1
+    return 0
 
-def getColumnReflection(pattern):
-    last_column = ""
-
-    # Loops through each column in the pattern
-    for i, _ in enumerate(pattern[0]):
-        current_column = [row[i] for row in pattern]
-        total_diff = 0
-        diff = getCharDifference(last_column, current_column)
-        # If the last column is the same as the current one, it is a possible reflect index
-        if last_column == current_column or len(diff) == 1:
-            reflect_index = i - 1
-
-            if len(diff) == 1: total_diff += 1
-
-            # Checks if the current reflect_index is valid
-            for i, low_index in enumerate(reversed(range(reflect_index))):
-                high_index = low_index + (i + 1)*2 + 1
-
-                # Loop done, reflect_index is valid
-                if high_index >= len(pattern[0]): break
-
-                # Gets the columns with the indexes low_column and high_column
-                low_column = [row[low_index] for row in pattern]
-                high_column = [row[high_index] for row in pattern]
-
-                diff = getCharDifference(low_column, high_column)
-                if len(diff) == 1:
-                    total_diff += 1
-                    continue
-
-                # patterns dont match, reflect index is not valid
-                if low_column != high_column:
-                    reflect_index = -1
-                    break
-
-            # If the reflect index is valid, return it + 1
-            if reflect_index != -1 and total_diff == 1:
-                return reflect_index + 1
-
-        last_column = current_column
-
-    return -1
-
-patterns = [[]]
+pattern = []
+sum = 0
 
 # Loops through all lines in the file/data
 for i, line in enumerate(file.readlines()):
-    if line.strip() == "": 
-        patterns.append([])
+    if line.strip() != "": 
+        pattern.append(line.strip())
         continue
+    
+    # Row
+    sum += 100*get_reflection(pattern)
 
-    patterns[-1].append(line.strip())
+    # Rotate the pattern so the columns become rows (and rows become columns)
+    # So the same get_reflection function can be used for both rows and columns
+    pattern_rotated = list(zip(*reversed(pattern)))
 
-sum = 0
+    # Column
+    sum += get_reflection(pattern_rotated)
 
-for i, pattern in enumerate(patterns):
-    print("i:", i)
-    if (row := getRowReflection(pattern)) != -1:
-        sum += 100*row
-    if (column := getColumnReflection(pattern)) != -1:
-        sum += column
-    print()
+    pattern = []
 
 print(sum)
